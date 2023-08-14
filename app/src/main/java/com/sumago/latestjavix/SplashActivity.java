@@ -263,29 +263,29 @@ public class SplashActivity extends AppCompatActivity {
 
                             && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
 
-                            )
+                    )
 
-                            {
-                                db = openOrCreateDatabase("javixlife", Context.MODE_PRIVATE, null);
-                                db.execSQL("CREATE TABLE IF NOT EXISTS javix_update(_id INTEGER PRIMARY KEY AUTOINCREMENT,service_type VARCHAR,service_name VARCHAR,service_data VARCHAR,data_json VARCHAR,service_image VARCHAR,insert_date DATETIME,_status INTEGER);");
-                                db.execSQL("CREATE TABLE IF NOT EXISTS javix_login(_id INTEGER PRIMARY KEY AUTOINCREMENT,fname VARCHAR,lname VARCHAR,email VARCHAR,pwd VARCHAR,userId VARCHAR,roleId INTEGER,javixid VARCHAR,_status INTEGER);");
-                                //db.execSQL("CREATE TABLE IF NOT EXISTS javix_citizenlist(_id INTEGER PRIMARY KEY AUTOINCREMENT,citizen_data TEXT,insert_date DATETIME,_status INTEGER);");
-                                db.execSQL("CREATE TABLE IF NOT EXISTS javix_citizenlist(_id INTEGER PRIMARY KEY AUTOINCREMENT,screenerid VARCHAR,citizenid VARCHAR,name VARCHAR,sex VARCHAR,pstatus INTEGER,mobile VARCHAR,email VARCHAR,caseId VARCHAR,insert_date DATETIME,_status INTEGER);");
-                                swOffline=(Switch)findViewById(R.id.swOffline);
-                                if(swOffline.isChecked()) {
-                                      Config.isOffline = true;
+                    {
+                        db = openOrCreateDatabase("javixlife", Context.MODE_PRIVATE, null);
+                        db.execSQL("CREATE TABLE IF NOT EXISTS javix_update(_id INTEGER PRIMARY KEY AUTOINCREMENT,service_type VARCHAR,service_name VARCHAR,service_data VARCHAR,data_json VARCHAR,service_image VARCHAR,insert_date DATETIME,_status INTEGER);");
+                        db.execSQL("CREATE TABLE IF NOT EXISTS javix_login(_id INTEGER PRIMARY KEY AUTOINCREMENT,fname VARCHAR,lname VARCHAR,email VARCHAR,pwd VARCHAR,userId VARCHAR,roleId INTEGER,javixid VARCHAR,_status INTEGER);");
+                        //db.execSQL("CREATE TABLE IF NOT EXISTS javix_citizenlist(_id INTEGER PRIMARY KEY AUTOINCREMENT,citizen_data TEXT,insert_date DATETIME,_status INTEGER);");
+                        db.execSQL("CREATE TABLE IF NOT EXISTS javix_citizenlist(_id INTEGER PRIMARY KEY AUTOINCREMENT,screenerid VARCHAR,citizenid VARCHAR,name VARCHAR,sex VARCHAR,pstatus INTEGER,mobile VARCHAR,email VARCHAR,caseId VARCHAR,insert_date DATETIME,_status INTEGER);");
+                        swOffline=(Switch)findViewById(R.id.swOffline);
+                        if(swOffline.isChecked()) {
+                            Config.isOffline = true;
 
-                                }else{
-                                    Config.isOffline=false;
-                                    Intent i = new Intent(SplashActivity.this, LoginActivity.class);
-                                    startActivity(i);
-                                    finish();
-                                }
-
-
+                        }else{
+                            Config.isOffline=false;
+                            Intent i = new Intent(SplashActivity.this, LoginActivity.class);
+                            startActivity(i);
+                            finish();
+                        }
 
 
-                                //Toast.makeText(getApplicationContext(),Integer.toString(grantResults.length) + ":" + Integer.toString(permissions.length),Toast.LENGTH_LONG).show();
+
+
+                        //Toast.makeText(getApplicationContext(),Integer.toString(grantResults.length) + ":" + Integer.toString(permissions.length),Toast.LENGTH_LONG).show();
                         //Log.d("mylog", "service permission granted");
                        /* if (hasPermissions(SplashActivity.this, PERMISSIONS)) {
                             Toast.makeText(SplashActivity.this, "All Permissions Granted",

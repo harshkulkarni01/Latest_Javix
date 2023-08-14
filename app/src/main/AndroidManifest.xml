@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sumago.latestjavix">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature android:name="android.hardware.camera" />
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -30,6 +33,7 @@
     </queries>
 
     <application
+        android:name=".BeatoApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -38,7 +42,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LatestJavix_UpdateDesign"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:replace="android:name">
+        <activity
+            android:name=".ECGreport"
+            android:exported="false" />
+        <activity
+            android:name=".ReportDownload"
+            android:exported="false" />
+        <activity
+            android:name=".HeartActivity2"
+            android:exported="false" />
         <activity
             android:name=".VideoIntigration.RecordVideoActivity"
             android:exported="false" />
@@ -129,6 +143,14 @@
         <activity
             android:name=".CitizenProfileActivity"
             android:parentActivityName=".CitizenListActivity" />
+        <activity
+            android:name=".LeadIITestActivity"
+            android:exported="false" />
+
+        <meta-data
+            android:name="android.app.lib_name"
+            android:value="" />
+
         <activity
             android:name=".LipidPanelActivity"
             android:parentActivityName=".LabTestActivity" />
@@ -237,7 +259,7 @@
         <activity
             android:name=".DoctorActivity"
             android:exported="true"
-            android:label="Doctor Dashboard"></activity>
+            android:label="Doctor Dashboard" />
         <activity
             android:name=".PharmacyActivity"
             android:label="Pharmacy Dashboard" />
@@ -247,12 +269,16 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ScreenerActivity"
-            android:theme="@style/Theme.LatestJavix_UpdateDesign"
-            android:label="Screener Dashboard" />
+            android:label="Screener Dashboard"
+            android:theme="@style/Theme.LatestJavix_UpdateDesign" />
         <activity
             android:name=".LoginActivity"
+            android:exported="false"
             android:label="Login Screen"
-            android:theme="@style/Theme.LatestJavix_UpdateDesign"/>
+            android:theme="@style/Theme.LatestJavix_UpdateDesign">
+
+
+        </activity>
         <activity
             android:name=".SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -263,6 +289,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity android:name=".MainActivity" />
         <activity

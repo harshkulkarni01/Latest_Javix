@@ -134,7 +134,7 @@ public class DrugTestActivity extends AppCompatActivity {
 
                 JSONObject jsonObject=new JSONObject(paramHash);
                 String SqlStr = "INSERT INTO javix_update(service_type,service_name,service_data,data_json,insert_date,_status)";
-                SqlStr += " VALUES('Add Drug Test','http://143.244.136.145:3010/api/labtest/addDrugTest','" + paramHash.toString() + "','"+jsonObject.toString()+"','" + currentDate + "',0);";
+                SqlStr += " VALUES('Add Drug Test','http://18.60.238.252:3010/api/labtest/addDrugTest','" + paramHash.toString() + "','"+jsonObject.toString()+"','" + currentDate + "',0);";
                 //Toast.makeText(getApplicationContext(), SqlStr, Toast.LENGTH_LONG).show();
                 Log.e("Offline", SqlStr);
                 db.execSQL(SqlStr);
@@ -171,7 +171,7 @@ public class DrugTestActivity extends AppCompatActivity {
 
         }else {
             SubmitForm req = new SubmitForm(this, paramHash);
-            req.execute("http://143.244.136.145:3010/api/labtest/addDrugTest");
+            req.execute("http://18.60.238.252:3010/api/labtest/addDrugTest");
         }
     } // function
 

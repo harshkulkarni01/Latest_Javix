@@ -80,7 +80,7 @@ public class PrescribedListActivity extends AppCompatActivity {
         Log.d("ParamHash", "onCreate: "+ParamHash);
 //        prescribedList.execute(MyConfig.URL_PRESCRIBED_LIST);
 //        prescribedList.execute("http://192.168.1.10:3010/api/citizen/CitizenPrescribe");
-//        prescribedList.execute("http://143.244.136.145:3010/api/citizen/CitizenPrescribe");
+//        prescribedList.execute("http://18.60.238.252:3010/api/citizen/CitizenPrescribe");
         prescribedList.execute(URL_PRESCRIBED_LIST);
 
 
@@ -647,7 +647,7 @@ class PrescribeAdapter extends RecyclerView.Adapter<PrescribedHolder> {
 //                RequestBody body = RequestBody.create(mediaType, "caseId=" + rec.caseid  +"&isUnrefer=" + 2 + "&ngoId=" + Config.NGO_ID);
                 RequestBody body = RequestBody.create(mediaType, "caseId=" + rec.caseid + "&ngoId=" + Config.NGO_ID);
                 Log.e("Response", "CaseId: " + rec.caseid);
-                String url = "http://143.244.136.145:3010/api/report/createPrescriptionReport";
+                String url = "http://18.60.238.252:3010/api/report/createPrescriptionReport";
 //                String url = "http://192.168.1.195:3010/api/report/createPrescriptionReport";
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()

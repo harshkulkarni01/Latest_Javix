@@ -1,20 +1,25 @@
 package com.sumago.latestjavix;
 
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -45,6 +50,8 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -60,24 +67,25 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class HeartActivity extends AppCompatActivity {
     ImageView mImageView;
-    String ImagePath="";
+    String ImagePath = "";
     TextView txFilename;
     EditText etNotes;
-    Button cmdSubmit=null,cmdCopy=null,cmdEko=null;
+    Button cmdSubmit = null, cmdCopy = null, cmdEko = null;
     private static final String TAG = "_msg";
-    String res="",postImageUrl="";
+    String res = "", postImageUrl = "";
     int serverResponseCode = 0;
     private int PICK_PDF_REQUEST = 1;
     private Uri filePath;
-    int flag_eko=0;
+    int flag_eko = 0;
     //storage permission code
     private static final int STORAGE_PERMISSION_CODE = 123;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_heart);
 
-        txFilename=(TextView) findViewById(R.id.txFilename);
+        txFilename = (TextView) findViewById(R.id.txFilename);
         mImageView = findViewById(R.id.imageview_id_picture);
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,38 +100,101 @@ public class HeartActivity extends AppCompatActivity {
             }
         });
 
-        cmdSubmit=(Button)findViewById(R.id.btnSubmit);
+        cmdSubmit = (Button) findViewById(R.id.btnSubmit);
+
+
         cmdSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Toast.makeText(getApplicationContext(),"Record Added Successfully !",Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(HeartActivity.this, TestListActivity.class);
-                finish();
-                startActivity(i);*/
-                android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(HeartActivity.this);
-                alertDialog.setMessage("Have you Captured data from EKO Device !");
-                alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                String caseId = Config.tmp_caseId;
+                String citizenID = Config.tmp_citizenId;
+                String jvixId = Config.javixid;
 
-                    public void onClick(DialogInterface dialog, int which) {
-                        submitForm(v);
-                    }
-                });
+                Log.d("CitizenData", "CItizen" + citizenID);
 
-                alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+               // final String BASE_URL = "http://18.60.238.252:3010/download/";// Change this to the correct API endpoint
+                String baseUrl = "http://18.60.238.252:3010/download/"+citizenID+"_"+caseId+".pdf";
 
+                downloadAndDisplayPdf();
+               new  DownloadPdfTask().execute(baseUrl);
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(baseUrl))
+                        .setDestinationInExternalPublicDir(
+                                Environment.DIRECTORY_DOWNLOADS,
+                                citizenID + "" + caseId + ".pdf"
+                        )
+
+                        .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+                DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+               Long downloadId = downloadManager.enqueue(request);
+
+                BroadcastReceiver downloadCompleteReceiver = new BroadcastReceiver() {
+                    @SuppressLint("Range")
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onReceive(Context context, Intent intent) {
+                        String action = intent.getAction();
+                        if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
+                            long receivedDownloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+                            if (receivedDownloadId == downloadId) {
+                                DownloadManager.Query query = new DownloadManager.Query().setFilterById(downloadId);
+                                Cursor cursor = downloadManager.query(query);
+                                if (cursor.moveToFirst()) {
+                                    int status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
+                                    if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                                        String fileUriString = cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI));
+                                        Uri fileUri = Uri.parse(fileUriString);
 
+                                        String fileName = citizenID + " " + caseId + ".pdf"; // Default file name if the ContentResolver fails to get the actual name
 
+                                        Cursor cursorFileName = getContentResolver().query(fileUri, null, null, null, null);
+                                        if (cursorFileName != null) {
+                                            if (cursorFileName.moveToFirst()) {
+                                                fileName = cursorFileName.getString(cursorFileName.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                                            }
+                                            cursorFileName.close();
+                                        }
+
+                                    }
+                                    cursor.close();
+                                    context.unregisterReceiver(this);
+                                }
+                            }
+                        }
                     }
-                });
+                };
 
-                alertDialog.create();
-                alertDialog.show();
+                Toast.makeText(
+                        HeartActivity.this,
+                        "PDF Download Check Your Download Folder",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+                registerReceiver(
+                        downloadCompleteReceiver,
+                        new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
+                );
+
+
+
+                                         /*    Toast.makeText(getApplicationContext(), "Record Added Successfully !", Toast.LENGTH_SHORT).show();
+                                             Intent i = new Intent(HeartActivity.this, TestListActivity.class);
+                                             finish();
+                                             startActivity(i);
+                                             android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(HeartActivity.this);
+                                             alertDialog.setMessage("Have you Captured data from EKO Device !");
+                                             alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                                                 public void onClick(DialogInterface dialog, int which) {
+                                                     submitForm(v);
+
+                                          */
 
 
             }
         });
+
+
+
 
 
         cmdCopy=(Button)findViewById(R.id.btnCopy);
@@ -154,8 +225,8 @@ public class HeartActivity extends AppCompatActivity {
         cmdEko.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.ekodevices.android.intl");
-                    startActivity(launchIntent);
+               startActivity(new Intent(HeartActivity.this,LeadIITestActivity.class));
+                Log.d("CitizenData", "CItizen" + Config.tmp_citizenId);
 
             }
         });
@@ -328,8 +399,8 @@ public class HeartActivity extends AppCompatActivity {
             try {
                 // open a URL connection to the Servlet
                 FileInputStream fileInputStream = new FileInputStream(sourceFile);
-                URL url = new URL("http://143.244.136.145:3010/upload/documents");
-                conn = (HttpURLConnection) url.openConnection();
+                URL url = new URL("http://18.60.238.252:3010/upload/documents");
+
                 conn.setDoInput(true); // Allow Inputs
                 conn.setDoOutput(true); // Allow Outputs
                 conn.setUseCaches(false); // Don't use a Cached Copy
@@ -423,8 +494,8 @@ public class HeartActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             Toast.makeText(getApplicationContext(),
-                                    "Json exception: " + e.getMessage(),
-                                    Toast.LENGTH_LONG)
+                                            "Json exception: " + e.getMessage(),
+                                            Toast.LENGTH_LONG)
                                     .show();
                         }
                     });
@@ -435,8 +506,8 @@ public class HeartActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(getApplicationContext(),
-                                "Couldn't get json from server. Check LogCat for possible errors!",
-                                Toast.LENGTH_LONG)
+                                        "Couldn't get json from server. Check LogCat for possible errors!",
+                                        Toast.LENGTH_LONG)
                                 .show();
                     }
                 });
@@ -465,6 +536,7 @@ public class HeartActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
         //Checking the request code of our request
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == STORAGE_PERMISSION_CODE) {
 
             //If permission is granted
@@ -523,5 +595,122 @@ public class HeartActivity extends AppCompatActivity {
 
         return super.onKeyDown(keyCode, event);
     }
+//////////// For Gate PDF FROM API
+private void downloadAndDisplayPdf() {
+    String caseId = Config.tmp_caseId; // Assuming `Config.tmp_caseId` holds the case ID
+    String citizenID = Config.tmp_citizenId;
+    String jvixId = Config.javixid;
+    // Create a DownloadManager request to download the PDF file
+
+    String file = citizenID +jvixId+ caseId;
+    //String file = "";
+    //final String BASE_URL = "http://192.168.222.110:3010/download/"+file;// Change this to the correct API endpoint
+    String baseUrl = "http://18.60.238.252:3010/download/"+citizenID+"_"+caseId+".pdf";
+    String downloadUrl = baseUrl + file;
+    DownloadManager.Request request = new DownloadManager.Request(Uri.parse(baseUrl))
+            .setTitle("Report Download") // Set the title of the download notification
+            .setDescription("ECG Report file") ;// Set the description of the download notification
+           // .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED); // Show download progress in the notification
+
+    // Get the system DownloadManager service
+    DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+
+    // Enqueue the download request and get the download ID
+    long downloadId = downloadManager.enqueue(request);
+
+    // Create a BroadcastReceiver to listen for the download completion event
+    BroadcastReceiver downloadCompleteReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
+                long receivedDownloadId = intent.getLongExtra(
+                        DownloadManager.EXTRA_DOWNLOAD_ID,
+                        -1
+                );
+                if (receivedDownloadId == downloadId) {
+                    // Get the downloaded file's URI
+                    DownloadManager.Query query = new DownloadManager.Query()
+                            .setFilterById(downloadId);
+                    android.database.Cursor cursor = downloadManager.query(query);
+                    if (cursor.moveToFirst()) {
+                        @SuppressLint("Range") int status = cursor.getInt(
+                                cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
+                        );
+                        if (status == DownloadManager.STATUS_SUCCESSFUL) {
+                            @SuppressLint("Range") String fileUriString = cursor.getString(
+                                    cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI)
+                            );
+                            Uri fileUri = Uri.parse(fileUriString);
+
+                            // Open the downloaded PDF file using an intent
+                            intent = new Intent(Intent.ACTION_VIEW);
+                            intent.setDataAndType(fileUri, "application/pdf");
+                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            startActivity(intent);
+                        }
+                    }
+                    cursor.close();
+                }
+            }
+        }
+    };
+
+    // Register the BroadcastReceiver to listen for the download completion event
+    IntentFilter downloadCompleteFilter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+    registerReceiver(downloadCompleteReceiver, downloadCompleteFilter);
+}
+
+    public static class DownloadPdfTask extends AsyncTask<String, Void, File> {
+
+        @Override
+        protected File doInBackground(String... urls) {
+            String urlStr = urls[0];
+            File pdfFile = null;
+
+            try {
+                URL url = new URL(urlStr);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+
+                int responseCode = connection.getResponseCode();
+
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    InputStream inputStream = connection.getInputStream();
+
+                    // Save the PDF data to a file on external storage
+                    File externalDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                    pdfFile = new File(externalDir, "ECG Report.pdf");
+                    FileOutputStream outputStream = new FileOutputStream(pdfFile);
+
+                    byte[] buffer = new byte[4096];
+                    int bytesRead;
+
+                    while ((bytesRead = inputStream.read(buffer)) != -1) {
+                        outputStream.write(buffer, 0, bytesRead);
+                    }
+
+                    outputStream.close();
+                    inputStream.close();
+                }
+
+                connection.disconnect();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return pdfFile;
+        }
+
+
+    }
+    public class javixID
+    {
+        String jvixId = Config.javixid;
+
+    }
 
 }
+
+

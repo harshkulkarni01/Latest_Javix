@@ -8,7 +8,7 @@ public class Constant
 //
 //	public static final String LINK = "http://159.65.148.197:3001/api/"; // Staging url
 //	public static final String LINK = "http://192.168.1.195:3010/api/"; // Local server
-	public static final String LINK = "http://143.244.136.145:3010/api/"; // Live server
+	public static final String LINK = "http://18.60.238.252:3010/api/"; // Live server
 //
 
 	//==== End point

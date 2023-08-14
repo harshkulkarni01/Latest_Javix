@@ -14,8 +14,8 @@ import java.util.regex.Pattern;
 
 public class MyConfig {
     public static Context CONTEXT = null;
-    //public static String URL_SERVER="http://143.244.136.145:3001";
-    public static String URL_SERVER="http://143.244.136.145:3010"; // recent live base URL
+    //public static String URL_SERVER="http://18.60.238.252:3001";
+    public static String URL_SERVER="http://18.60.238.252:3010"; // recent live base URL
 
 
 //    public static String URL_SERVER = "http://192.168.1.195:3010"; // Local IP for Testing
@@ -23,7 +23,7 @@ public class MyConfig {
 
 
     //    public static String URL_local_server ="http://159.65.148.197:3001/api/";    // staging url
-    public static String URL_local_server = "http://143.244.136.145:3010/api/";    // staging url
+    public static String URL_local_server = "http://18.60.238.252:3010/api/";    // staging url
 //    public static String URL_local_server ="http://192.168.1.56:3001/api/";    // Local server IP
 
 

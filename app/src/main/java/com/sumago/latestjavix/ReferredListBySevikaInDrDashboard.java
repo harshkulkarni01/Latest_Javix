@@ -243,7 +243,7 @@ public class ReferredListBySevikaInDrDashboard extends AppCompatActivity {
 //        RequestBody body = RequestBody.create(mediaType, "token=dfjkhsdfaksjfh375623&isUnrefer=true&ngoId=javixngo31");
         RequestBody body = RequestBody.create(mediaType, "token=dfjkhsdfaksjfh375623&isUnrefer=" + 1 + "&ngoId=" + Config.NGO_ID);
         Request request = new Request.Builder()
-                .url("http://143.244.136.145:3010/api/citizen/citizenrefer")
+                .url("http://18.60.238.252:3010/api/citizen/citizenrefer")
                 .method("POST", body)
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
                 .build();

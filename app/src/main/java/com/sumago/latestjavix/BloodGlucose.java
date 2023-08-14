@@ -238,7 +238,7 @@ public class BloodGlucose extends AppCompatActivity {
          final int DEFAULT_TIMEOUT = 20 * 1000;
          AsyncHttpClient client = new AsyncHttpClient();
          client.setTimeout(DEFAULT_TIMEOUT);
-         String url="http://143.244.136.145:3001/api/labtest/addBloodGlucoseTest";
+         String url="http://18.60.238.252:3001/api/labtest/addBloodGlucoseTest";
 
 
          client.addHeader("content-type", "application/x-www-form-urlencoded");

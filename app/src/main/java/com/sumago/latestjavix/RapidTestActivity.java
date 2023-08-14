@@ -179,7 +179,7 @@ public class RapidTestActivity extends AppCompatActivity {
 
                 JSONObject jsonObject=new JSONObject(paramHash);
                 String SqlStr = "INSERT INTO javix_update(service_type,service_name,service_data,data_json,insert_date,_status)";
-                SqlStr += " VALUES('Add RapidTest','http://143.244.136.145:3010/api/labtest/addLabTest','" + paramHash.toString() + "','"+jsonObject.toString()+"','" + currentDate + "',0);";
+                SqlStr += " VALUES('Add RapidTest','http://18.60.238.252:3010/api/labtest/addLabTest','" + paramHash.toString() + "','"+jsonObject.toString()+"','" + currentDate + "',0);";
 //                SqlStr += " VALUES('Add RapidTest','http://192.168.1.195:3010/api/labtest/addLabTest','" + paramHash.toString() + "','"+jsonObject.toString()+"','" + currentDate + "',0);";
                 //Toast.makeText(getApplicationContext(), SqlStr, Toast.LENGTH_LONG).show();
                 Log.e("Offline", SqlStr);
@@ -216,7 +216,7 @@ public class RapidTestActivity extends AppCompatActivity {
 
         }else {
             RapidTestActivity.SubmitForm req = new RapidTestActivity.SubmitForm(this, paramHash);
-            req.execute("http://143.244.136.145:3010/api/labtest/addLabTest");
+            req.execute("http://18.60.238.252:3010/api/labtest/addLabTest");
         }
     }
     class SubmitForm extends AsyncTask<String, Void, String>{

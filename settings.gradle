@@ -1,18 +1,78 @@
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
         google()
-        mavenCentral()
+                mavenCentral()
+        jcenter()
     }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        Properties properties = new Properties()
+        properties.load(new FileInputStream(new File("local.properties")))
+        maven {
+            url ('https://jitpack.io')
+        }
         google()
         mavenCentral()
         jcenter()
-        maven { url "https://jitpack.io" }
+        maven {
+            url = uri("https://maven.pkg.github.com/sunfox-technologies/ecg_processor/in/sunfox/healthcare/commons/java/ecg-processor/conclusions/2.0.26/conclusions-2.0.26.pom")
+            credentials {
+                username = properties.getProperty("repo.username", "javix_life")
+                password = properties.getProperty("repo.token", "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")
+            }
+        }
+        maven {
+            url = uri("https://maven.pkg.github.com/sunfox-technologies/spandan_ecg_android_sdk")
+            credentials {
+                username = properties.getProperty("repo.username", "javix_life")
+                password = properties.getProperty("repo.token", "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")
+            }
+        }
     }
 }
 rootProject.name = "Latest Javix"
 include ':app'
+/*
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+
+        maven {
+            url = uri("https://maven.pkg.github.com/sunfox-technologies/ecg_processor/in/sunfox/healthcare/commons/java/ecg-processor/conclusions/2.0.26/conclusions-2.0.26.pom")
+            credentials {
+                username = properties.getProperty("repo.username", "javix_life")
+                password = properties.getProperty("repo.token", "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")
+            }
+        }
+        maven {
+            url = uri("https://maven.pkg.github.com/sunfox-technologies/spandan_ecg_android_sdk")
+            credentials {
+                username = properties.getProperty("repo.username", "javix_life")
+                password = properties.getProperty("repo.token", "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")
+            }
+        }
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        Properties properties = new Properties()
+        properties.load(new FileInputStream(new File("local.properties")))
+        google()
+        mavenCentral()
+
+        jcenter()
+        maven { url "https://jitpack.io" }
+
+
+    }
+}
+rootProject.name = "Latest Javix"
+include ':app'
+* */

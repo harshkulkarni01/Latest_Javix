@@ -525,9 +525,9 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
+                    android:adjustViewBounds="true"
                     android:background="@drawable/ic_baseline_post_add_48"
                     android:textColor="@color/white"
-                    android:adjustViewBounds="true"
                     android:textSize="12sp" />
 
                 <ImageView
@@ -539,6 +539,18 @@
                     android:background="@drawable/ic_baseline_cloud_download_24"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/ecgReport"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="130dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:text="ECG Report"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
             </LinearLayout>
         </LinearLayout>
 

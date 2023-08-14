@@ -149,7 +149,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     if (isInternetOn(context)) {
 
-                        Config._targetUrl = "http://143.244.136.145:3010/api/"; //Live IP
+                        Config._targetUrl = "http://18.60.238.252:3010/api/"; //Live IP
 //                        Config._targetUrl = "http://192.168.1.195:3010/api/";
 //                        Config._targetUrl = "http://159.65.148.197:3001/api/";  // Staging url
 //                        Config._targetUrl = "http://192.168.1.7:3000/api/auth/login?=";  // local IP for testing purpose
@@ -415,8 +415,8 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         Toast.makeText(getApplicationContext(),
-                                "Json exception: " + e.getMessage(),
-                                Toast.LENGTH_LONG)
+                                        "Json exception: " + e.getMessage(),
+                                        Toast.LENGTH_LONG)
                                 .show();
                     }
                 });
@@ -428,8 +428,8 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     Toast.makeText(getApplicationContext(),
-                            "Couldn't get json from server. Check LogCat for possible errors!",
-                            Toast.LENGTH_LONG)
+                                    "Couldn't get json from server. Check LogCat for possible errors!",
+                                    Toast.LENGTH_LONG)
                             .show();
                 }
             });
@@ -503,7 +503,7 @@ public class LoginActivity extends AppCompatActivity {
         paramHash.put("loggedIn", "1");
         SubmitForm req = new SubmitForm(this, paramHash);
 
-        req.execute("http://143.244.136.145:3010/api/login/updatelogindoc");
+        req.execute("http://18.60.238.252:3010/api/login/updatelogindoc");
 //        req.execute("http://192.168.1.195:3010/api/login/updatelogindoc");// Loccaall host aapi for tesstingg
 //        req.execute("http://159.65.148.197:3001/api/login/updatelogindoc"); // Staging URL for testing
     }

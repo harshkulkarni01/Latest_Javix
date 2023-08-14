@@ -328,7 +328,7 @@ public class DoctorActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             protected String doInBackground(Void... voids) {
                 try {
-                    URL url = new URL("http://143.244.136.145:3010/api/doctor/doctorById");
+                    URL url = new URL("http://18.60.238.252:3010/api/doctor/doctorById");
 //                    URL url = new URL("http://159.65.148.197:3001/api/doctor/doctorById");
 
 
@@ -443,7 +443,7 @@ public class DoctorActivity extends AppCompatActivity implements View.OnClickLis
         paramHash.put("doctorId", Config._uid);
         paramHash.put("loggedIn","0");
         SubmitForm req=new SubmitForm(this,paramHash);
-        req.execute("http://143.244.136.145:3010/api/login/updatelogindoc");
+        req.execute("http://18.60.238.252:3010/api/login/updatelogindoc");
 
     }
 

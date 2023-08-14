@@ -536,7 +536,7 @@ public class AddPrescriptionActivity extends AppCompatActivity {
 
                     MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
                     RequestBody body = RequestBody.create(mediaType, "caseId=" + caseId + "&ngoId=" + Config.NGO_ID);
-                    String url = "http://143.244.136.145:3010/api/report/createPrescriptionReport";
+                    String url = "http://18.60.238.252:3010/api/report/createPrescriptionReport";
 //                    String url = "http://192.168.1.195:3010/api/report/createPrescriptionReport";
 //                    String url="http://159.65.148.197:3001/api/report/createPrescriptionReport";  // Local IP just for testing
                     OkHttpClient client = new OkHttpClient();
