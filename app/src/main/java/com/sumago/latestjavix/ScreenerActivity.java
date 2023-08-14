@@ -302,7 +302,7 @@ public class ScreenerActivity extends AppCompatActivity {
             protected String doInBackground(Void... voids) {
 
                 try {
-                    URL url = new URL("http://143.244.136.145:3010/api/ngo/screenerById");
+                    URL url = new URL("http://18.60.238.252:3010/api/ngo/screenerById");
                     StringBuilder sb = new StringBuilder();
                     conn = (HttpURLConnection) url.openConnection();
                     //conn.setRequestProperty("Content-Type", "application/text");

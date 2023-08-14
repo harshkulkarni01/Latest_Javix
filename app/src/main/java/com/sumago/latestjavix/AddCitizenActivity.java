@@ -728,7 +728,7 @@ public class AddCitizenActivity extends  UtilityRuntimePermission implements Cam
             try {
                 // open a URL connection to the Servlet
                 FileInputStream fileInputStream = new FileInputStream(sourceFile);
-                URL url = new URL("http://143.244.136.145:3010/upload/profile");
+                URL url = new URL("http://18.60.238.252:3010/upload/profile");
 //                URL url = new URL("http://192.168.1.136:3010/upload/profile");
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setDoInput(true); // Allow Inputs

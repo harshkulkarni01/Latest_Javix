@@ -315,6 +315,8 @@ public class CitizenListActivity extends AppCompatActivity {
                             CitizenData cdata = new CitizenData();
                             cdata.screenerid = rec.getString("screenerId");
                             cdata.citizenid = rec.getString("citizenId");
+
+                            recsArrayList.add(cdata);
                             cdata.name = rec.getString("firstName") + " " + rec.getString("lastName");
                             cdata.sex = rec.getString("sex");
                             cdata.pstatus = Integer.parseInt(rec.getString("pstatus"));
@@ -363,7 +365,7 @@ public class CitizenListActivity extends AppCompatActivity {
                                 cdata.photo = info.getString("photo");
                                 //Log.e("Cases", "CaseID: " +cases);
                             } else {
-                                cdata.photo = "http://143.244.136.145:3010/profile/no-photo-male.jpg";
+                                cdata.photo = "http://18.60.238.252:3010/profile/no-photo-male.jpg";
 //                                cdata.photo = "http://192.168.1.136:3010/profile/no-photo-male.jpg";
 //                                cdata.photo = "http://159.65.148.197:3001/profile/no-photo-male.jpg";
                             }

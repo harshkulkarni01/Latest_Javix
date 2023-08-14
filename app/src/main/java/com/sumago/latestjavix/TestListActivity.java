@@ -221,7 +221,7 @@ public class TestListActivity extends AppCompatActivity {
                     MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
                     RequestBody body = RequestBody.create(mediaType, "citizenId=" + Config.tmp_citizenId);
                     Log.e("Response", "citizenId: " +Config.tmp_citizenId);
-                    String url = "http://143.244.136.145:3010/api/report/createHistoryReport";
+                    String url = "http://18.60.238.252:3010/api/report/createHistoryReport";
 //                    String url = "http://159.65.148.197:3001/api/report/createHistoryReport";
                     OkHttpClient client = new OkHttpClient();
                     Request request = new Request.Builder()
@@ -276,7 +276,7 @@ public class TestListActivity extends AppCompatActivity {
                     MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
                     RequestBody body = RequestBody.create(mediaType, "caseId=" + Config.tmp_caseId + "&ngoId=" + Config.NGO_ID);
                     Log.e("Response", "(TestListActivity)caseId: " +Config.tmp_caseId);
-                    String url = "http://143.244.136.145:3010/api/report/createCaseReport";
+                    String url = "http://18.60.238.252:3010/api/report/createCaseReport";
 //                    String url = "http://159.65.148.197:3001/api/report/createCaseReport";
                     OkHttpClient client = new OkHttpClient();
                     Request request = new Request.Builder()

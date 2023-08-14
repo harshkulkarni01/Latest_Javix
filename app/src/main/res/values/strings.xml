@@ -2,11 +2,14 @@
     <string name="app_name">Healthcare 360°</string>
     <string name="version">Version: Javix_V2.0.45</string>
 
-
+    <string name="lead_ii_test">lead II test</string>
+    <string name="_12_lead_test">12 lead test</string>
     <string name="title_activity_splash">Splash Screen</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_login">Login Screen</string>
+    <string name="height_placeholder">Height: %1$s</string>
+
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.

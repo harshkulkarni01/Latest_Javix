@@ -53,7 +53,7 @@ public class ForgotActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(isInternetOn(context)) {
-                    Config._targetUrl="http://143.244.136.145:3010/api/";
+                    Config._targetUrl="http://18.60.238.252:3010/api/";
                     downloadJSON(Config._targetUrl + "auth/forgotpw?=", emailid.getText().toString());
 
                 }

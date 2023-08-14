@@ -158,7 +158,8 @@ public class VisualExam extends  UtilityRuntimePermission implements Camera.Asyn
                 }
 //                if (Config.video1Base64!=null) {
                 if (postImageUrl.contains("")) {
-                    //Toast.makeText(getApplicationContext(),postImageUrl,Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),postImageUrl,Toast.LENGTH_LONG).show();
+                    Log.d("postImageUrl","postImageUrl" +postImageUrl );
                     submitForm(v);
                 }else {
                     Toast.makeText(getApplicationContext(),"Upload Images",Toast.LENGTH_LONG).show();
@@ -447,7 +448,8 @@ public class VisualExam extends  UtilityRuntimePermission implements Camera.Asyn
                 // open a URL connection to the Servlet
                 FileInputStream fileInputStream = new FileInputStream(sourceFile);
 //                URL url = new URL("http://139.59.59.31:3001/upload/documents");
-                URL url = new URL("http://143.244.136.145:3010/upload/documents");
+               URL url = new URL("http://18.60.238.252:3010/upload/documents");
+              //  URL url = new URL("http://18.60.238.252:3010/api/labtest/addVisualExam");
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setDoInput(true); // Allow Inputs
                 conn.setDoOutput(true); // Allow Outputs

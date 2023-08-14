@@ -305,7 +305,7 @@ class EncounterListAdapter extends RecyclerView.Adapter<EncounterViewHolder> {
 
                 MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
                 RequestBody body = RequestBody.create(mediaType, "caseId=" + Config.tmp_caseId);
-                String url="http://143.244.136.145:3010/api/report/createPrescriptionReport";
+                String url="http://18.60.238.252:3010/api/report/createPrescriptionReport";
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
                         .url(url)
@@ -354,7 +354,7 @@ class EncounterListAdapter extends RecyclerView.Adapter<EncounterViewHolder> {
 
                 MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
                 RequestBody body = RequestBody.create(mediaType, "caseId=" + Config.tmp_caseId);
-                String url="http://143.244.136.145:3010/api/report/createCaseReport";
+                String url="http://18.60.238.252:3010/api/report/createCaseReport";
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
                         .url(url)
